@@ -20,8 +20,7 @@ class SpeedTest extends TestCase
         $unitTimeToConvert,
         $valueExpected,
         $precision = 2
-        )
-    {
+        ) {
         $result = (new Speed)->setValue($value)
                             ->setUnitLength($unitLengthSource)
                             ->setUnitTime($unitTimeSource)
