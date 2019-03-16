@@ -6,80 +6,26 @@ use Cesargb\Metric\Units\LengthUnits;
 
 class Length
 {
-    private $length = 0;
-
-    private $unit;
-
-    public function __construct(float $unit = null, int $precision = 2)
-    {
-        $this->unit = $unit ?? LengthUnits::meters;
-
-        $this->precision = $precision;
-    }
+    use MetricTrait;
 
     public function setLength(float $length): self
     {
-        $this->length = $length;
+        $this->value = $length;
 
         return $this;
     }
 
-    public function getLength(): float
-    {
-        return $this->length;
-    }
-
-    public function setUnit(float $unit): self
+    public function setUnit(LengthUnits $unit): self
     {
         $this->unit = $unit;
 
         return $this;
     }
 
-    public function getPrecision()
+    public function convertTo(LengthUnits $unitDestination): float
     {
-        return $this->precision;
-    }
+        $ratioConversion = $unitDestination->value() / $this->unit->value();
 
-    public function setPrecision(int $precision): self
-    {
-        $this->precision = $precision;
-
-        return $this;
-    }
-
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    public function convertToMeters(): float
-    {
-        return $this->convertTo(LengthUnits::meters);
-    }
-
-    public function convertToKiloMeters(): float
-    {
-        return $this->convertTo(LengthUnits::kilometers);
-    }
-
-    public function convertToYards(): float
-    {
-        return $this->convertTo(LengthUnits::yards);
-    }
-
-    public function convertToMiles(): float
-    {
-        return $this->convertTo(LengthUnits::miles);
-    }
-
-    public function convertToKiloMiles(): float
-    {
-        return $this->convertTo(LengthUnits::kilometers);
-    }
-
-    public function convertTo(float $unitDestination): float
-    {
-        return round($this->length *  $unitDestination / $this->unit, $this->precision);
+        return $this->convert($ratioConversion);
     }
 }

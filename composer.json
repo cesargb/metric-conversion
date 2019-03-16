@@ -3,7 +3,8 @@
     "description": "Calculators for metric conversions",
     "type": "library",
     "require": {
-        "php": "^7.3"
+        "php": "^7.3",
+        "eloquent/enumeration": "^6.0"
     },
     "homepage": "https://github.com/cesargb/metric-conversion",
     "license": "MIT",

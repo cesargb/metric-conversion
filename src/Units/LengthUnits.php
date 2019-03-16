@@ -2,7 +2,9 @@
 
 namespace Cesargb\Metric\Units;
 
-abstract class LengthUnits
+use Eloquent\Enumeration\AbstractEnumeration;
+
+class LengthUnits extends AbstractEnumeration
 {
     const meters = 1;
     const kilometers = 0.001;

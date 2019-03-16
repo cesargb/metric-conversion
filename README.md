@@ -16,9 +16,9 @@ $ composer require cesargb/metric-conversio
 $length = new Cesargb\Metric\Length;
 
 $result = $length->setLength(10)
-                ->setUnit(Cesargb\Metric\Units\LengthUnits::metrers)
+                ->setUnit(Cesargb\Metric\Units\LengthUnits::metrers())
                 ->setPrecision(2)
-                ->convertTo(Cesargb\Metric\Units\LengthUnits::yards);
+                ->convertTo(Cesargb\Metric\Units\LengthUnits::yards());
 ```
 
 ## Testing
