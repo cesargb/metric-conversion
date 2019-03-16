@@ -2,20 +2,20 @@
 
 namespace Cesargb\Metric;
 
-use Cesargb\Metric\Units\LengthUnits;
+use Cesargb\Metric\Units\WeigthUnits;
 
-class Length
+class Weight
 {
     use MetricTrait;
 
-    public function setUnit(LengthUnits $unit): self
+    public function setUnit(WeigthUnits $unit): self
     {
         $this->unit = $unit;
 
         return $this;
     }
 
-    public function convertTo(LengthUnits $unitDestination): float
+    public function convertTo(WeigthUnits $unitDestination): float
     {
         $ratioConversion = $unitDestination->value() / $this->unit->value();
 

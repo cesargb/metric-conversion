@@ -10,21 +10,19 @@ use Cesargb\Metric\Units\WeigthUnits;
 class LengthTest extends TestCase
 {
     /**
-     * @dataProvider dateLengthProvider
+     * @dataProvider dataProvider
      */
-    public function testLength($length, $unitSource, $unitToConvert, $lengthExpected, $precision = 2)
+    public function testLength($value, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
     {
-        $lengthClass = new Length;
-
-        $result = $lengthClass->setLength($length)
+        $result = (new Length)->setValue($value)
                             ->setUnit($unitSource)
                             ->setPrecision($precision)
                             ->convertTo($unitToConvert);
 
-        $this->assertEquals($lengthExpected, $result);
+        $this->assertEquals($valueExpected, $result);
     }
 
-    public function dateLengthProvider()
+    public function dataProvider()
     {
         return [
             [0, LengthUnits::meters(), LengthUnits::kilometers(), 0],
