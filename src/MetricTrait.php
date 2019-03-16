@@ -8,7 +8,9 @@ trait MetricTrait
 
     private $unit;
 
-    private $precision = 2;
+    private $precision = 0;
+
+    private $roundMode = PHP_ROUND_HALF_UP;
 
     public function setPrecision(int $precision): self
     {
@@ -17,8 +19,17 @@ trait MetricTrait
         return $this;
     }
 
+    public function setRound(int $mode): self
+    {
+        $this->roundMode = $mode;
+
+        return $this;
+    }
+
     protected function convert(float $ratioConversion): float
     {
-        return round($this->value * $ratioConversion, $this->precision);
+        $value = $this->value * $ratioConversion;
+
+        return round($value, $this->precision, $this->roundMode);
     }
 }
