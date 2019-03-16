@@ -13,13 +13,23 @@ $ composer require cesargb/metric-conversio
 ## Usage
 
 ``` php
-$length = new Cesargb\Metric\Length;
+use Cesargb\Metric\Length;
+use Cesargb\Metric\Units\LengthUnits;
+
+// ...
+
+$length = new Length;
 
 $result = $length->setLength(10)
-                ->setUnit(Cesargb\Metric\Units\LengthUnits::metrers())
+                ->convertTo(LengthUnits::yards());
+
+// More details
+
+$result = $length->setLength(10)
+                ->setUnit(LengthUnits::metrers())
                 ->setPrecision(0)
                 ->setRound(PHP_ROUND_HALF_UP)
-                ->convertTo(Cesargb\Metric\Units\LengthUnits::yards());
+                ->convertTo(LengthUnits::yards());
 ```
 
 ## Testing
