@@ -1,12 +1,10 @@
 <?php
 
-namespace Cesargb\Metric;
+namespace Cesargb\Metric\Traits;
 
 trait MetricTrait
 {
     private $value = 0;
-
-    private $unit;
 
     private $precision = 0;
 
@@ -31,12 +29,5 @@ trait MetricTrait
         $this->roundMode = $mode;
 
         return $this;
-    }
-
-    protected function convert(float $ratioConversion): float
-    {
-        $value = $this->value * $ratioConversion;
-
-        return round($value, $this->precision, $this->roundMode);
     }
 }

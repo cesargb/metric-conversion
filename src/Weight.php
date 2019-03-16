@@ -3,10 +3,11 @@
 namespace Cesargb\Metric;
 
 use Cesargb\Metric\Units\WeigthUnits;
+use Cesargb\Metric\Traits\MetricOneTrait;
 
 class Weight
 {
-    use MetricTrait;
+    use MetricOneTrait;
 
     public function setUnit(WeigthUnits $unit): self
     {
