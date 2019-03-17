@@ -10,26 +10,10 @@ class Speed
 {
     use MetricTwoTrait;
 
-    public function setUnitLength(LengthUnits $unit): self
+    public function __construct()
     {
-        $this->unitOne = $unit;
+        $this->unitsOneClassType = LengthUnits::class;
 
-        return $this;
-    }
-
-    public function setUnitTime(TimeUnits $unit): self
-    {
-        $this->unitTwo = $unit;
-
-        return $this;
-    }
-
-    public function convertTo(LengthUnits $lengthUnitDestination, TimeUnits $timeUnitDestination): float
-    {
-        $ratioOneConversion = $lengthUnitDestination->value() / $this->unitOne->value();
-
-        $ratioTwoConversion = $timeUnitDestination->value() / $this->unitTwo->value();
-
-        return $this->convert($ratioOneConversion, $ratioTwoConversion);
+        $this->unitsTwoClassType = TimeUnits::class;
     }
 }

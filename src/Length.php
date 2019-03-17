@@ -9,17 +9,8 @@ class Length
 {
     use MetricOneTrait;
 
-    public function setUnit(LengthUnits $unit): self
+    public function __construct()
     {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function convertTo(LengthUnits $unitDestination): float
-    {
-        $ratioConversion = $unitDestination->value() / $this->unit->value();
-
-        return $this->convert($ratioConversion);
+        $this->unitsClassType = LengthUnits::class;
     }
 }

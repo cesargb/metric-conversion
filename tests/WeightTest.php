@@ -11,12 +11,13 @@ class WeightTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testWeight($value, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    public function testWeight($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
     {
-        $result = (new Weight)->setValue($value)
-                            ->setUnit($unitSource)
-                            ->setPrecision($precision)
-                            ->convertTo($unitToConvert);
+        $conver = 'convert'.$unitSource;
+
+        $to = 'to'.$unitToConvert;
+
+        $result = call_user_func(Weight::class.'::'.$conver, $valueSource)->$to();
 
         $this->assertEquals($valueExpected, $result);
     }
@@ -24,8 +25,8 @@ class WeightTest extends TestCase
     public function dataProvider()
     {
         return [
-            [1209, WeigthUnits::grams(), WeigthUnits::kilograms(), 1.21],
-            [1.044, WeigthUnits::kilograms(), WeigthUnits::grams(), 1044],
+            [1209, 'Grams', 'Kilograms', 1.21],
+            [1.044, 'Kilograms', 'Grams', 1044],
         ];
     }
 }

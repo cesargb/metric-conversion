@@ -13,30 +13,34 @@ $ composer require cesargb/metric-conversion
 ## Usage
 
 ``` php
+use Cesargb\Metric\Time;
+use Cesargb\Metric\Speed;
 use Cesargb\Metric\Length;
-use Cesargb\Metric\Weight;
-use Cesargb\Metric\Units\LengthUnits;
-use Cesargb\Metric\Units\WeightUnits;
 
 // ...
 
 $length = new Length;
 
-$result = $length->setValue(10)
-                ->convertTo(LengthUnits::yards());
+$yards = Length::convertMeters(10)
+                    ->toYards(); // $yards = 10.94
 
-// More details
+$yards = Length::convertMeters(10)
+                    ->setPrecision(4)
+                    ->toYards(); // $yards = 10.9361
 
-$result = $length->setValue(10)
-                ->setUnit(LengthUnits::metrers())
-                ->setPrecision(0)
-                ->setRound(PHP_ROUND_HALF_UP)
-                ->convertTo(LengthUnits::yards());
+$kilograms = Weight::convertGrams(2309)
+                    ->toKilograms(); // $kilograms = 2.31
 
-$weight = new Weight;
+$kilograms = Weight::convertGrams(2309)
+                    ->setPrecision(4)
+                    ->toKilograms(); // $kilograms = 2.309
 
-$result = $weight->setValue(10)
-                ->convertTo(WeightUnits::kilograms());
+$kilograms = Weight::convertGrams(2309)
+                    setRound(PHP_ROUND_HALF_EVEN)
+                    ->toKilograms(); // $kilograms = 2.30
+
+$yardsMinures = Speed::convertKilometersHours(100)
+                ->toYardsMinutes(); // $yardsMinures = 1822.69
 ```
 
 ## Testing

@@ -9,17 +9,8 @@ class Time
 {
     use MetricOneTrait;
 
-    public function setUnit(TimeUnits $unit): self
+    public function __construct()
     {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function convertTo(TimeUnits $unitDestination): float
-    {
-        $ratioConversion = $unitDestination->value() / $this->unit->value();
-
-        return $this->convert($ratioConversion);
+        $this->unitsClassType = TimeUnits::class;
     }
 }

@@ -6,14 +6,67 @@ trait MetricTwoTrait
 {
     use MetricTrait;
 
-    private $unitOne;
+    private $unitsOneClassType;
 
-    private $unitTwo;
+    private $unitOneSource;
 
-    protected function convert(float $ratioOneConversion, float $ratioTwoConversion): float
+    private $unitsTwoClassType;
+
+    private $unitTwoSource;
+
+    protected function callConvert($units, $arguments)
     {
-        $value = $this->value * $ratioOneConversion * $ratioTwoConversion;
+        $value = $arguments[0] ?? null;
 
-        return round($value, $this->precision, $this->roundMode);
+        if (is_numeric($value)) {
+            $this->value = $value;
+
+            $unitsPart = preg_split('/(?=[A-Z])/', $units, -1, PREG_SPLIT_NO_EMPTY);
+
+            if (count($unitsPart) == 2) {
+                $this->unitOneSource = call_user_func(
+                    $this->unitsOneClassType.'::'.strtolower($unitsPart[0])
+                )->value();
+
+                $this->unitTwoSource = call_user_func(
+                    $this->unitsTwoClassType.'::'.strtolower($unitsPart[1])
+                )->value();
+
+                return $this;
+            }
+
+            throw new BadMethodCallException(sprintf(
+                'Method %s::%s does not exist.', static::class, 'convert'.$units
+            ));
+        } else {
+            throw new InvalidArgumentException('Argument does not valid.');
+        }
+    }
+
+    protected function callTo($units)
+    {
+        $unitsPart = preg_split('/(?=[A-Z])/', $units, -1, PREG_SPLIT_NO_EMPTY);
+
+        if (count($unitsPart) == 2) {
+            $unitOneTo = call_user_func(
+                $this->unitsOneClassType.'::'.strtolower($unitsPart[0])
+            )->value();
+
+            $ratioOneConversion = $unitOneTo / $this->unitOneSource;
+
+            $unitTwoTo = call_user_func(
+                $this->unitsTwoClassType.'::'.strtolower($unitsPart[1])
+            )->value();
+
+            $ratioTwoConversion = $unitTwoTo / $this->unitTwoSource;
+
+            $value = $this->value * $ratioOneConversion * $ratioTwoConversion;
+
+            return round($value, $this->precision, $this->roundMode);
+        }
+
+        throw new BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, 'to'.$units
+        ));
     }
 }

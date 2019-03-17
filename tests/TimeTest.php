@@ -11,12 +11,13 @@ class TimeTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testTime($value, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    public function testTime($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
     {
-        $result = (new Time)->setValue($value)
-                            ->setUnit($unitSource)
-                            ->setPrecision($precision)
-                            ->convertTo($unitToConvert);
+        $conver = 'convert'.$unitSource;
+
+        $to = 'to'.$unitToConvert;
+
+        $result = call_user_func(Time::class.'::'.$conver, $valueSource)->$to();
 
         $this->assertEquals($valueExpected, $result);
     }
@@ -24,7 +25,7 @@ class TimeTest extends TestCase
     public function dataProvider()
     {
         return [
-            [1209, TimeUnits::seconds(), TimeUnits::minutes(), 72540],
+            [1209, 'Seconds', 'Minutes', 72540],
         ];
     }
 }

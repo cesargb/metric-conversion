@@ -12,20 +12,15 @@ class SpeedTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testTime(
-        $value,
-        $unitLengthSource,
-        $unitTimeSource,
-        $unitLengthToConvert,
-        $unitTimeToConvert,
-        $valueExpected,
-        $precision = 2
-        ) {
-        $result = (new Speed)->setValue($value)
-                            ->setUnitLength($unitLengthSource)
-                            ->setUnitTime($unitTimeSource)
-                            ->setPrecision($precision)
-                            ->convertTo($unitLengthToConvert, $unitTimeToConvert);
+    public function testSpeed($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    {
+        var_dump(Speed::convertKilometersHours(100)
+        ->toYardsMinutes());
+        $conver = 'convert'.$unitSource;
+
+        $to = 'to'.$unitToConvert;
+
+        $result = call_user_func(Speed::class.'::'.$conver, $valueSource)->$to();
 
         $this->assertEquals($valueExpected, $result);
     }
@@ -35,18 +30,14 @@ class SpeedTest extends TestCase
         return [
             [
                 18,
-                LengthUnits::meters(),
-                TimeUnits::seconds(),
-                LengthUnits::kilometers(),
-                TimeUnits::hours(),
+                'MetersSeconds',
+                'KilometersHours',
                 64.8
             ],
             [
                 64.8,
-                LengthUnits::kilometers(),
-                TimeUnits::hours(),
-                LengthUnits::meters(),
-                TimeUnits::seconds(),
+                'KilometersHours',
+                'MetersSeconds',
                 18
             ],
         ];

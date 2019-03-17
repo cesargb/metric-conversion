@@ -9,17 +9,8 @@ class Weight
 {
     use MetricOneTrait;
 
-    public function setUnit(WeigthUnits $unit): self
+    public function __construct()
     {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function convertTo(WeigthUnits $unitDestination): float
-    {
-        $ratioConversion = $unitDestination->value() / $this->unit->value();
-
-        return $this->convert($ratioConversion);
+        $this->unitsClassType = WeigthUnits::class;
     }
 }
