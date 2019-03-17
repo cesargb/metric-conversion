@@ -11,6 +11,6 @@ class Time
 
     public function __construct()
     {
-        $this->unitsClassType = TimeUnits::class;
+        $this->unitClassType = TimeUnits::class;
     }
 }

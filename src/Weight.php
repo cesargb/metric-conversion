@@ -11,6 +11,6 @@ class Weight
 
     public function __construct()
     {
-        $this->unitsClassType = WeigthUnits::class;
+        $this->unitClassType = WeigthUnits::class;
     }
 }

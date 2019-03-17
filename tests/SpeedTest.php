@@ -14,8 +14,6 @@ class SpeedTest extends TestCase
      */
     public function testSpeed($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
     {
-        var_dump(Speed::convertKilometersHours(100)
-        ->toYardsMinutes());
         $conver = 'convert'.$unitSource;
 
         $to = 'to'.$unitToConvert;

@@ -9,7 +9,7 @@ trait MetricOneTrait
 {
     use MetricTrait;
 
-    private $unitsClassType;
+    private $unitClassType;
 
     private $unitSource;
 
@@ -20,7 +20,7 @@ trait MetricOneTrait
         if (is_numeric($value)) {
             $this->value = $value;
 
-            $this->unitSource = call_user_func($this->unitsClassType.'::'.strtolower($unit))->value();
+            $this->unitSource = call_user_func($this->unitClassType.'::'.strtolower($unit))->value();
 
             return $this;
         } else {
@@ -30,11 +30,9 @@ trait MetricOneTrait
 
     protected function callTo($unit)
     {
-        $unitTo = call_user_func($this->unitsClassType.'::'.strtolower($unit))->value();
+        $unitTo = call_user_func($this->unitClassType.'::'.strtolower($unit))->value();
 
-        $ratioConversion = $unitTo / $this->unitSource;
-
-        $value = $this->value * $ratioConversion;
+        $value = $this->value * $unitTo / $this->unitSource;
 
         return round($value, $this->precision, $this->roundMode);
     }

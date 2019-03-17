@@ -6,6 +6,8 @@ trait MetricTwoTrait
 {
     use MetricTrait;
 
+    private $unitsClassType;
+
     private $unitsOneClassType;
 
     private $unitOneSource;
@@ -21,7 +23,7 @@ trait MetricTwoTrait
         if (is_numeric($value)) {
             $this->value = $value;
 
-            $unitsPart = preg_split('/(?=[A-Z])/', $units, -1, PREG_SPLIT_NO_EMPTY);
+            $unitsPart = $this->splitAtUpperCase($units);
 
             if (count($unitsPart) == 2) {
                 $this->unitOneSource = call_user_func(
@@ -45,7 +47,7 @@ trait MetricTwoTrait
 
     protected function callTo($units)
     {
-        $unitsPart = preg_split('/(?=[A-Z])/', $units, -1, PREG_SPLIT_NO_EMPTY);
+        $unitsPart = $this->splitAtUpperCase($units);
 
         if (count($unitsPart) == 2) {
             $unitOneTo = call_user_func(
@@ -68,5 +70,10 @@ trait MetricTwoTrait
         throw new BadMethodCallException(sprintf(
             'Method %s::%s does not exist.', static::class, 'to'.$units
         ));
+    }
+
+    protected function splitAtUpperCase($value)
+    {
+        return preg_split('/(?=[A-Z])/', $value, -1, PREG_SPLIT_NO_EMPTY);
     }
 }

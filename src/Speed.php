@@ -12,6 +12,11 @@ class Speed
 
     public function __construct()
     {
+        $this->unitsClassType = [
+            LengthUnits::class,
+            TimeUnits::class
+        ];
+
         $this->unitsOneClassType = LengthUnits::class;
 
         $this->unitsTwoClassType = TimeUnits::class;

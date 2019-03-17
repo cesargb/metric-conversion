@@ -11,6 +11,6 @@ class Length
 
     public function __construct()
     {
-        $this->unitsClassType = LengthUnits::class;
+        $this->unitClassType = LengthUnits::class;
     }
 }
