@@ -19,8 +19,6 @@ use Cesargb\Metric\Length;
 
 // ...
 
-$length = new Length;
-
 $yards = Length::convertMeters(10)
                     ->toYards(); // $yards = 10.94
 
@@ -39,7 +37,7 @@ $kilograms = Weight::convertGrams(2309)
                     setRound(PHP_ROUND_HALF_EVEN)
                     ->toKilograms(); // $kilograms = 2.30
 
-$yardsMinures = Speed::convertKilometersHours(100)
+$yardsMinutes = Speed::convertKilometersHours(100)
                 ->toYardsMinutes(); // $yardsMinures = 1822.69
 ```
 

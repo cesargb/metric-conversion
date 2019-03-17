@@ -54,6 +54,11 @@ trait MetricTrait
         return (new self)->__call($method, $arguments);
     }
 
+    protected function isArgumentsValid($arguments)
+    {
+        return is_numeric($arguments[0] ?? null);
+    }
+
     protected function isMethodTypeConvert($method)
     {
         return substr($method, 0, 7) == 'convert';

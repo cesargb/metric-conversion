@@ -18,10 +18,8 @@ trait MetricTwoTrait
 
     protected function callConvert($units, $arguments)
     {
-        $value = $arguments[0] ?? null;
-
-        if (is_numeric($value)) {
-            $this->value = $value;
+        if ($this->isArgumentsValid($arguments)) {
+            $this->value = $arguments[0];
 
             $unitsPart = $this->splitAtUpperCase($units);
 

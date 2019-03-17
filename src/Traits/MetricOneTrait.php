@@ -15,10 +15,8 @@ trait MetricOneTrait
 
     protected function callConvert($unit, $arguments)
     {
-        $value = $arguments[0] ?? null;
-
-        if (is_numeric($value)) {
-            $this->value = $value;
+        if ($this->isArgumentsValid($arguments)) {
+            $this->value = $arguments[0];
 
             $this->unitSource = call_user_func($this->unitClassType.'::'.strtolower($unit))->value();
 
