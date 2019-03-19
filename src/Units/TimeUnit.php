@@ -6,8 +6,8 @@ use Eloquent\Enumeration\AbstractEnumeration;
 
 class TimeUnits extends AbstractEnumeration
 {
-    const seconds = 1;
-    const minutes = 60;
-    const hours = 3600;
-    const day = 86400;
+    const seconds = 86400;
+    const minutes = 1440;
+    const hours = 24;
+    const days = 1;
 }
