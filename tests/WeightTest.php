@@ -4,29 +4,24 @@ namespace Cesargb\Metric\Test;
 
 use Cesargb\Metric\Weight;
 use PHPUnit\Framework\TestCase;
-use Cesargb\Metric\Units\WeigthUnits;
+use Cesargb\Metric\Tests\Traits\Metric;
+
 
 class WeightTest extends TestCase
 {
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testWeight($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    use Metric;
+
+    public function setup(): void
     {
-        $conver = 'convert'.$unitSource;
+        $this->metricClass = Weight::class;
 
-        $to = 'to'.$unitToConvert;
-
-        $result = call_user_func(Weight::class.'::'.$conver, $valueSource)->$to();
-
-        $this->assertEquals($valueExpected, $result);
+        parent::setup();
     }
 
     public function dataProvider()
     {
         return [
-            [1209, 'Grams', 'Kilograms', 1.21],
-            [1.044, 'Kilograms', 'Grams', 1044],
+            [1210, 'Grams', 'Kilograms', 1.21],
         ];
     }
 }

@@ -32,6 +32,11 @@
             "Cesargb\\Metric\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Cesargb\\Metric\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "test": "vendor/bin/phpunit",
         "stylefix": "vendor/bin/php-cs-fixer fix"

@@ -4,22 +4,17 @@ namespace Cesargb\Metric\Test;
 
 use Cesargb\Metric\Time;
 use PHPUnit\Framework\TestCase;
-use Cesargb\Metric\Units\TimeUnits;
+use Cesargb\Metric\Tests\Traits\Metric;
 
 class TimeTest extends TestCase
 {
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testTime($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    use Metric;
+
+    public function setup(): void
     {
-        $conver = 'convert'.$unitSource;
+        $this->metricClass = Time::class;
 
-        $to = 'to'.$unitToConvert;
-
-        $result = call_user_func(Time::class.'::'.$conver, $valueSource)->$to();
-
-        $this->assertEquals($valueExpected, $result);
+        parent::setup();
     }
 
     public function dataProvider()

@@ -4,23 +4,17 @@ namespace Cesargb\Metric\Test;
 
 use Cesargb\Metric\Speed;
 use PHPUnit\Framework\TestCase;
-use Cesargb\Metric\Units\TimeUnits;
-use Cesargb\Metric\Units\LengthUnits;
+use Cesargb\Metric\Tests\Traits\Metric;
 
 class SpeedTest extends TestCase
 {
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testSpeed($valueSource, $unitSource, $unitToConvert, $valueExpected, $precision = 2)
+    use Metric;
+
+    public function setup(): void
     {
-        $conver = 'convert'.$unitSource;
+        $this->metricClass = Speed::class;
 
-        $to = 'to'.$unitToConvert;
-
-        $result = call_user_func(Speed::class.'::'.$conver, $valueSource)->$to();
-
-        $this->assertEquals($valueExpected, $result);
+        parent::setup();
     }
 
     public function dataProvider()
