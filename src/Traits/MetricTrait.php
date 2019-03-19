@@ -2,8 +2,7 @@
 
 namespace Cesargb\Metric\Traits;
 
-use PHPUnit\Framework\MockObject\BadMethodCallException;
-
+use BadMethodCallException;
 
 trait MetricTrait
 {
@@ -37,15 +36,17 @@ trait MetricTrait
     public function __call($method, $arguments)
     {
         if ($this->isMethodTypeConvert($method)) {
-           return $this->callConvert(substr($method, 7), $arguments);
+            return $this->callConvert(substr($method, 7), $arguments);
         }
 
         if ($this->isMethodTypeTo($method)) {
             return $this->callTo(substr($method, 2));
-         }
+        }
 
         throw new BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.', static::class, $method
+            'Method %s::%s does not exist.',
+            static::class,
+            $method
         ));
     }
 

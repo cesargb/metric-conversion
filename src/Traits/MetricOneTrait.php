@@ -2,8 +2,8 @@
 
 namespace Cesargb\Metric\Traits;
 
-use BadMethodCallException;
-
+use Exception;
+use InvalidArgumentException;
 
 trait MetricOneTrait
 {
@@ -16,19 +16,33 @@ trait MetricOneTrait
     protected function callConvert($unit, $arguments)
     {
         if ($this->isArgumentsValid($arguments)) {
-            $this->value = $arguments[0];
+            $this->setValue($arguments[0]);
 
             $this->unitSource = call_user_func($this->unitClassType.'::'.strtolower($unit))->value();
 
             return $this;
-        } else {
-            throw new InvalidArgumentException('Argument does not valid.');
         }
+        throw new InvalidArgumentException('Argument does not valid.');
     }
 
     protected function callTo($unit)
     {
-        $unitTo = call_user_func($this->unitClassType.'::'.strtolower($unit))->value();
+        if ($this->isInvalidSource()) {
+            throw new Exception("Error, previus convert is required.");
+        }
+
+        return $this->getConversion($unit);
+    }
+
+    protected function isInvalidSource(): bool
+    {
+        return is_null($this->unitSource);
+    }
+
+    protected function getConversion($unitTo)
+    {
+        $unitTo = call_user_func($this->unitClassType.'::'.strtolower($unitTo))
+                    ->value();
 
         $value = $this->value * $unitTo / $this->unitSource;
 

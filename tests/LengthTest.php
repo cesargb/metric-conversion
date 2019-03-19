@@ -6,6 +6,7 @@ use Cesargb\Metric\Length;
 use PHPUnit\Framework\TestCase;
 use Cesargb\Metric\Units\LengthUnits;
 use Cesargb\Metric\Units\WeigthUnits;
+use PHPUnit\Framework\MockObject\BadMethodCallException;
 
 class LengthTest extends TestCase
 {

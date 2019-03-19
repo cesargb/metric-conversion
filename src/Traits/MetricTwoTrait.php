@@ -2,6 +2,10 @@
 
 namespace Cesargb\Metric\Traits;
 
+use Exception;
+use BadMethodCallException;
+use InvalidArgumentException;
+
 trait MetricTwoTrait
 {
     use MetricTrait;
@@ -19,7 +23,7 @@ trait MetricTwoTrait
     protected function callConvert($units, $arguments)
     {
         if ($this->isArgumentsValid($arguments)) {
-            $this->value = $arguments[0];
+            $this->setValue($arguments[0]);
 
             $unitsPart = $this->splitAtUpperCase($units);
 
@@ -36,15 +40,20 @@ trait MetricTwoTrait
             }
 
             throw new BadMethodCallException(sprintf(
-                'Method %s::%s does not exist.', static::class, 'convert'.$units
+                'Method %s::%s does not exist.',
+                static::class,
+                'convert'.$units
             ));
-        } else {
-            throw new InvalidArgumentException('Argument does not valid.');
         }
+        throw new InvalidArgumentException('Argument does not valid.');
     }
 
     protected function callTo($units)
     {
+        if ($this->isInvalidSource()) {
+            throw new Exception("Error, previus convert is required.");
+        }
+
         $unitsPart = $this->splitAtUpperCase($units);
 
         if (count($unitsPart) == 2) {
@@ -66,12 +75,19 @@ trait MetricTwoTrait
         }
 
         throw new BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.', static::class, 'to'.$units
+            'Method %s::%s does not exist.',
+            static::class,
+            'to'.$units
         ));
     }
 
     protected function splitAtUpperCase($value)
     {
         return preg_split('/(?=[A-Z])/', $value, -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    protected function isInvalidSource(): bool
+    {
+        return is_null($this->unitOneSource) || is_null($this->unitTwoSource);
     }
 }
