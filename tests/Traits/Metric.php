@@ -17,7 +17,7 @@ trait Metric
         $to = 'to'.$unitToConvert;
 
         $result = call_user_func($this->metricClass.'::'.$conver, $valueSource)
-                    ->setPrecision(10)
+                    ->setPrecision(4)
                     ->$to();
 
         $this->assertEquals($valueExpected, $result);
@@ -33,7 +33,7 @@ trait Metric
         $to = 'to'.$unitToConvert;
 
         $result = call_user_func($this->metricClass.'::'.$conver, $valueSource)
-                    ->setPrecision(10)
+                    ->setPrecision(4)
                     ->$to();
 
         $this->assertEquals($valueExpected, $result);

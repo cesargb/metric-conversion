@@ -20,7 +20,9 @@ class TimeTest extends TestCase
     public function dataProvider()
     {
         return [
-            [1209, 'Seconds', 'Minutes', 72540],
+            [120.9 * 60, 'Seconds', 'Minutes', 120.9],
+            [1209.2 * 3600, 'Seconds', 'Hours', 1209.2],
+            [12.2 * 86400, 'Seconds', 'Days', 12.2],
         ];
     }
 }

@@ -21,10 +21,12 @@ class LengthTest extends TestCase
     {
         return [
             [0, 'Meters', 'Kilometers', 0],
+            [1, 'Meters', 'Meters', 1],
             [1020, 'Meters', 'Kilometers', 1.02],
             [10, 'Miles', 'Meters', 16093.44],
-            [1496.68992, 'Meters', 'Miles', 0.93],
-            [10, 'Miles', 'Yards', 17600],
+            [1.1, 'Miles', 'Yards', 1.1 * 1760],
+            [1.1, 'Miles', 'Feet', 1.1 * 5280],
+            [1.1, 'Miles', 'Inches', 1.1 * 63360],
         ];
     }
 }

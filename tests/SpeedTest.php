@@ -20,18 +20,9 @@ class SpeedTest extends TestCase
     public function dataProvider()
     {
         return [
-            [
-                18,
-                'MetersSeconds',
-                'KilometersHours',
-                64.8
-            ],
-            [
-                64.8,
-                'KilometersHours',
-                'MetersSeconds',
-                18
-            ],
+            [1, 'MetersSeconds', 'KilometersHours', 3.6],
+            [1, 'KilometersHours', 'MilesHours', 0.6214],
+            [1, 'KilometersHours', 'FeetSeconds', 0.9113],
         ];
     }
 }
