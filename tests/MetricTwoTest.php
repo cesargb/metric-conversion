@@ -34,14 +34,14 @@ class MetricTwoTest extends TestCase
 
     public function testBadMethodConvertOne()
     {
-        $this->expectException(UndefinedMemberException::class);
+        $this->expectException(Exception::class);
 
         Speed::convertBadHours(10);
     }
 
     public function testBadMethodConvertTwo()
     {
-        $this->expectException(UndefinedMemberException::class);
+        $this->expectException(Exception::class);
 
         Speed::convertMetersBad(10);
     }
@@ -62,14 +62,14 @@ class MetricTwoTest extends TestCase
 
     public function testBadMethodToOne()
     {
-        $this->expectException(UndefinedMemberException::class);
+        $this->expectException(Exception::class);
 
         Speed::convertMetersSeconds(1)->toBadHours();
     }
 
     public function testBadMethodToTwo()
     {
-        $this->expectException(UndefinedMemberException::class);
+        $this->expectException(Exception::class);
 
         Speed::convertMetersSeconds(1)->toMetersBad();
     }

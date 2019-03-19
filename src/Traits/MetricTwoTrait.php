@@ -5,6 +5,8 @@ namespace Cesargb\Metric\Traits;
 use Exception;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Eloquent\Enumeration\Exception\UndefinedMemberException;
+use Cesargb\Metric\Units\LengthUnits;
 
 trait MetricTwoTrait
 {
@@ -12,13 +14,29 @@ trait MetricTwoTrait
 
     private $unitsClassType;
 
-    private $unitsOneClassType;
+    private $unitsSourceClassOne;
 
-    private $unitOneSource;
+    private $unitsSourceMemberOne;
 
-    private $unitsTwoClassType;
+    private $unitsSourceValueOne;
 
-    private $unitTwoSource;
+    private $unitsSourceClassTwo;
+
+    private $unitsSourceMemberTwo;
+
+    private $unitsSourceValueTwo;
+
+    private $unitsToClassOne;
+
+    private $unitsToMemberOne;
+
+    private $unitsToValueOne;
+
+    private $unitsToClassTwo;
+
+    private $unitsToMemberTwo;
+
+    private $unitsToValueTwo;
 
     protected function callConvert($units, $arguments)
     {
@@ -30,6 +48,10 @@ trait MetricTwoTrait
             if (count($unitsPart) == 2) {
                 $this->setSourceUnits($unitsPart);
 
+                if ($this->isInvalidSource()) {
+                    throw new Exception("Error, previus convert was bad formatted.",);
+                }
+
                 return $this;
             }
 
@@ -39,29 +61,53 @@ trait MetricTwoTrait
                 'convert'.$units
             ));
         }
+
         throw new InvalidArgumentException('Argument does not valid.');
     }
 
     protected function setSourceUnits(array $units)
     {
-        list($unitOne , $unitTwo) = $units;
+        list(
+            $this->unitsSourceMemberOne,
+            $this->unitsSourceMemberTwo
+        ) = $units;
 
-        $this->setSourceUnitOne($unitOne);
+        $this->unitsSourceClassOne = $this->getUnitClassByMember($this->unitsSourceMemberOne);
 
-        $this->setSourceUnitTwo($unitTwo);
+        $this->unitsSourceClassTwo = $this->getUnitClassByMember($this->unitsSourceMemberTwo);
+
+        $this->unitsSourceValueOne = $this->getValueFromMember(
+            $this->unitsSourceClassOne,
+            $this->unitsSourceMemberOne
+        );
+
+        $this->unitsSourceValueTwo = $this->getValueFromMember(
+            $this->unitsSourceClassTwo,
+            $this->unitsSourceMemberTwo
+        );
     }
 
-    protected function setSourceUnitOne($unit)
+    protected function getUnitClassByMember($member)
     {
-        $this->unitOneSource = call_user_func(
-            $this->unitsOneClassType.'::'.strtolower($unit)
-        )->value();
+        foreach($this->unitsClassType as $unitClassType) {
+            try {
+                call_user_func($unitClassType.'::'.strtolower($member).'');
+
+                return $unitClassType;
+            } catch (UndefinedMemberException $e) {}
+        }
+
+        return null;
     }
 
-    protected function setSourceUnitTwo($unit)
+    protected function getValueFromMember($class, $member)
     {
-        $this->unitTwoSource = call_user_func(
-            $this->unitsTwoClassType.'::'.strtolower($unit)
+        if (empty($class)) {
+            return null;
+        }
+
+        return call_user_func(
+            $class.'::'.strtolower($member)
         )->value();
     }
 
@@ -74,11 +120,25 @@ trait MetricTwoTrait
         $unitsArr = $this->getUnits($units);
 
         if (count($unitsArr) == 2) {
-            return round(
-                $this->value * $this->getRatioConversion($unitsArr),
-                $this->precision,
-                $this->roundMode
-            );
+            $this->setToUnits($unitsArr);
+
+            if ($this->isInvalidTo()) {
+                throw new Exception("Error, method to bad formatted.");
+            }
+
+            if ($this->unitsSourceClassOne == $this->unitsToClassOne) {
+                return round(
+                    $this->value * $this->getRatioConversion(),
+                    $this->precision,
+                    $this->roundMode
+                );
+            } else {
+                return round(
+                    $this->getRatioConversion() / $this->value,
+                    $this->precision,
+                    $this->roundMode
+                );
+            }
         } else {
             throw new BadMethodCallException(sprintf(
                 'Method %s::%s does not exist.',
@@ -88,9 +148,45 @@ trait MetricTwoTrait
         }
     }
 
+    protected function setToUnits(array $units)
+    {
+        list(
+            $this->unitsToMemberOne,
+            $this->unitsToMemberTwo
+        ) = $units;
+
+        $this->unitsToClassOne = $this->getUnitClassByMember(
+            $this->unitsToMemberOne
+        );
+
+        $this->unitsToClassTwo = $this->getUnitClassByMember(
+            $this->unitsToMemberTwo
+        );
+
+
+        $this->unitsToValueOne = $this->getValueFromMember(
+            $this->unitsToClassOne,
+            $this->unitsToMemberOne
+        );
+
+        $this->unitsToValueTwo = $this->getValueFromMember(
+            $this->unitsToClassTwo,
+            $this->unitsToMemberTwo
+        );
+    }
+
     protected function isInvalidSource(): bool
     {
-        return is_null($this->unitOneSource) || is_null($this->unitTwoSource);
+        return is_null($this->unitsSourceValueOne)
+                    || is_null($this->unitsSourceValueTwo)
+                    || is_null($this->unitsSourceClassOne)
+                    || is_null($this->unitsSourceClassTwo);
+    }
+
+    protected function isInvalidTo(): bool
+    {
+        return is_null($this->unitsToClassOne)
+                    || is_null($this->unitsToClassTwo);
     }
 
     protected function getUnits($value)
@@ -98,29 +194,33 @@ trait MetricTwoTrait
         return preg_split('/(?=[A-Z])/', $value, -1, PREG_SPLIT_NO_EMPTY);
     }
 
-    protected function getRatioConversion(array $units): float
+    protected function getRatioConversion(): float
     {
-        list($unitOne , $unitTwo) = $units;
-
-        return $this->getRatioConversionOne($unitOne)
-                    / $this->getRatioConversionTwo($unitTwo);
+        if ($this->unitsSourceClassOne == $this->unitsToClassOne) {
+            return $this->getRatioConversionOne()
+                    / $this->getRatioConversionTwo();
+        } else {
+            return $this->getRatioConversionOne()
+                    / $this->getRatioConversionTwo();
+        }
     }
 
-    protected function getRatioConversionOne($unitTo): float
+    protected function getRatioConversionOne(): float
     {
-        $value = call_user_func(
-            $this->unitsOneClassType.'::'.strtolower($unitTo)
-        )->value();
-
-        return $value / $this->unitOneSource;
+        if ($this->unitsSourceClassOne == $this->unitsToClassOne) {
+            return $this->unitsToValueOne / $this->unitsSourceValueOne;
+        } else {
+            return $this->unitsToValueOne / $this->unitsSourceValueTwo;
+        }
     }
 
-    protected function getRatioConversionTwo($unitTo): float
+    protected function getRatioConversionTwo(): float
     {
-        $value = call_user_func(
-            $this->unitsTwoClassType.'::'.strtolower($unitTo)
-        )->value();
+        if ($this->unitsSourceClassOne == $this->unitsToClassOne) {
+            return $this->unitsToValueTwo / $this->unitsSourceValueTwo;
+        } else {
+            return $this->unitsToValueTwo / $this->unitsSourceValueOne;
+        }
 
-        return $value / $this->unitTwoSource;
     }
 }

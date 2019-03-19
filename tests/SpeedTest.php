@@ -23,6 +23,8 @@ class SpeedTest extends TestCase
             [1, 'MetersSeconds', 'KilometersHours', 3.6],
             [1, 'KilometersHours', 'MilesHours', 0.6214],
             [1, 'KilometersHours', 'FeetSeconds', 0.9113],
+            [12, 'KilometersHours', 'MinutesKilometers', 5],
+            [15, 'KilometersHours', 'MinutesKilometers', 4],
         ];
     }
 }
