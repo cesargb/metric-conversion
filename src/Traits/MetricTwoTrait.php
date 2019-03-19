@@ -46,12 +46,22 @@ trait MetricTwoTrait
     {
         list($unitOne , $unitTwo) = $units;
 
-        $this->unitOneSource = call_user_func(
-            $this->unitsOneClassType.'::'.strtolower($unitOne)
-        )->value();
+        $this->setSourceUnitOne($unitOne);
 
+        $this->setSourceUnitTwo($unitTwo);
+    }
+
+    protected function setSourceUnitOne($unit)
+    {
+        $this->unitOneSource = call_user_func(
+            $this->unitsOneClassType.'::'.strtolower($unit)
+        )->value();
+    }
+
+    protected function setSourceUnitTwo($unit)
+    {
         $this->unitTwoSource = call_user_func(
-            $this->unitsTwoClassType.'::'.strtolower($unitTwo)
+            $this->unitsTwoClassType.'::'.strtolower($unit)
         )->value();
     }
 
