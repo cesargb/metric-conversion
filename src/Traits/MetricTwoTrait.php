@@ -103,7 +103,7 @@ trait MetricTwoTrait
         list($unitOne , $unitTwo) = $units;
 
         return $this->getRatioConversionOne($unitOne)
-                    * $this->getRatioConversionTwo($unitTwo);
+                    / $this->getRatioConversionTwo($unitTwo);
     }
 
     protected function getRatioConversionOne($unitTo): float
