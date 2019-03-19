@@ -1,6 +1,6 @@
 # Metric Convert
 
-Calculators for metric conversions
+Library to metric conversions.
 
 ## Install
 
@@ -26,15 +26,15 @@ $yards = Length::convertMeters(10)
                     ->setPrecision(4)
                     ->toYards(); // $yards = 10.9361
 
-$kilograms = Weight::convertGrams(2309)
+$kilograms = Weight::convertGrams(2305)
                     ->toKilograms(); // $kilograms = 2.31
 
-$kilograms = Weight::convertGrams(2309)
+$kilograms = Weight::convertGrams(2305)
                     ->setPrecision(4)
-                    ->toKilograms(); // $kilograms = 2.309
+                    ->toKilograms(); // $kilograms = 2.305
 
 $kilograms = Weight::convertGrams(2309)
-                    setRound(PHP_ROUND_HALF_EVEN)
+                    ->setRound(PHP_ROUND_HALF_EVEN)
                     ->toKilograms(); // $kilograms = 2.30
 
 $yardsMinutes = Speed::convertKilometersHours(100)
