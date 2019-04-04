@@ -120,26 +120,25 @@ trait MetricTwoTrait
 
     protected function getRatioConversion(): float
     {
-        return $this->getRatioConversionOne()
-                    / $this->getRatioConversionTwo();
+        return $this->getRatioConversionOne() / $this->getRatioConversionTwo();
     }
 
     protected function getRatioConversionOne(): float
     {
-        if ($this->convertInverse()) {
-            return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
-        }
+        $divisor = $this->convertInverse()
+                    ? $this->itemSourceTwo->getValue()
+                    : $this->itemSourceOne->getValue();
 
-        return $this->itemToOne->getValue() / $this->itemSourceOne->getValue();
+        return $this->itemToOne->getValue() / $divisor;
     }
 
     protected function getRatioConversionTwo(): float
     {
-        if ($this->convertInverse()) {
-            return $this->itemToTwo->getValue() / $this->itemSourceOne->getValue();
-        }
+        $divisor = $this->convertInverse()
+                    ? $this->itemSourceOne->getValue()
+                    : $this->itemSourceTwo->getValue();
 
-        return $this->itemToTwo->getValue() / $this->itemSourceTwo->getValue();
+        return $this->itemToTwo->getValue() / $divisor;
     }
 
     protected function convertInverse()

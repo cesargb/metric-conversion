@@ -39,6 +39,9 @@ $kilograms = Weight::convertGrams(2309)
 
 $yardsMinutes = Speed::convertKilometersHours(100)
                     ->toYardsMinutes(); // $yardsMinutes = 1822.69
+
+$pacePerKilometer = Speed::converKilometersHours(15)
+                    ->toMinutesKilomenters(); // $pacePerKilometer = 4
 ```
 
 ## Testing
