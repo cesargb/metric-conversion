@@ -16,9 +16,5 @@ class Speed
             LengthUnits::class,
             TimeUnits::class
         ];
-
-        $this->unitsOneClassType = LengthUnits::class;
-
-        $this->unitsTwoClassType = TimeUnits::class;
     }
 }

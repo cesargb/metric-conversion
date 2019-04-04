@@ -6,7 +6,6 @@ use Exception;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Eloquent\Enumeration\Exception\UndefinedMemberException;
-use Cesargb\Metric\Units\LengthUnits;
 
 trait MetricTwoTrait
 {
@@ -180,13 +179,15 @@ trait MetricTwoTrait
         return is_null($this->unitsSourceValueOne)
                     || is_null($this->unitsSourceValueTwo)
                     || is_null($this->unitsSourceClassOne)
-                    || is_null($this->unitsSourceClassTwo);
+                    || is_null($this->unitsSourceClassTwo)
+                    || $this->unitsSourceValueOne == $this->unitsSourceValueTwo;
     }
 
     protected function isInvalidTo(): bool
     {
         return is_null($this->unitsToClassOne)
-                    || is_null($this->unitsToClassTwo);
+                    || is_null($this->unitsToClassTwo)
+                    || $this->unitsToClassOne == $this->unitsToClassTwo;
     }
 
     protected function getUnits($value)
