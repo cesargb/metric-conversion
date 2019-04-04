@@ -50,10 +50,7 @@ trait MetricTwoTrait
 
     protected function setSourceUnits(array $units)
     {
-        list(
-            $unitsSourceMemberOne,
-            $unitsSourceMemberTwo
-        ) = $units;
+        list($unitsSourceMemberOne, $unitsSourceMemberTwo) = $units;
 
         $this->itemSourceOne = new Metric($this->unitsClassType, $unitsSourceMemberOne);
 
@@ -75,32 +72,23 @@ trait MetricTwoTrait
                 throw new Exception("Error, method to bad formatted.");
             }
 
-            if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
-                return round(
-                    $this->value * $this->getRatioConversion(),
-                    $this->precision,
-                    $this->roundMode
-                );
-            }
-            return round(
-                    $this->getRatioConversion() / $this->value,
-                    $this->precision,
-                    $this->roundMode
-                );
+            $value = $this->convertInverse()
+                            ? $this->getRatioConversion() / $this->value
+                            : $this->value * $this->getRatioConversion();
+
+            return round($value, $this->precision, $this->roundMode);
         }
+
         throw new BadMethodCallException(sprintf(
-                'Method %s::%s does not exist.',
-                static::class,
-                'to'.$units
-            ));
+            'Method %s::%s does not exist.',
+            static::class,
+            'to'.$units
+        ));
     }
 
     protected function setToUnits(array $units)
     {
-        list(
-            $unitsToMemberOne,
-            $unitsToMemberTwo
-        ) = $units;
+        list($unitsToMemberOne, $unitsToMemberTwo) = $units;
 
         $this->itemToOne = new Metric($this->unitsClassType, $unitsToMemberOne);
 
@@ -138,18 +126,24 @@ trait MetricTwoTrait
 
     protected function getRatioConversionOne(): float
     {
-        if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
-            return $this->itemToOne->getValue() / $this->itemSourceOne->getValue();
+        if ($this->convertInverse()) {
+            return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
         }
 
-        return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
+        return $this->itemToOne->getValue() / $this->itemSourceOne->getValue();
     }
 
     protected function getRatioConversionTwo(): float
     {
-        if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
-            return $this->itemToTwo->getValue() / $this->itemSourceTwo->getValue();
+        if ($this->convertInverse()) {
+            return $this->itemToTwo->getValue() / $this->itemSourceOne->getValue();
         }
-        return $this->itemToTwo->getValue() / $this->itemSourceOne->getValue();
+
+        return $this->itemToTwo->getValue() / $this->itemSourceTwo->getValue();
+    }
+
+    protected function convertInverse()
+    {
+        return $this->itemSourceOne->getClass() != $this->itemToOne->getClass();
     }
 }
