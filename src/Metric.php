@@ -25,21 +25,21 @@ class Metric
     public function getClass()
     {
         if ($this->class === false) {
-            foreach($this->unitsClassType as $unitClassType) {
+            foreach ($this->unitsClassType as $unitClassType) {
                 try {
                     call_user_func($unitClassType.'::'.strtolower($this->member).'');
 
                     $this->class = $unitClassType;
 
                     return $this->class;
-                } catch (UndefinedMemberException $e) {}
+                } catch (UndefinedMemberException $e) {
+                }
             }
 
             $this->class = null;
         }
 
         return $this->class;
-
     }
 
     public function getValue()

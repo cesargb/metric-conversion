@@ -2,9 +2,9 @@
 
 namespace Cesargb\Metric\Tests;
 
+use Cesargb\Metric\Length;
 use PHPUnit\Framework\TestCase;
 use Cesargb\Metric\Tests\Traits\Metric;
-use Cesargb\Metric\Length;
 
 class LengthTest extends TestCase
 {

@@ -3,9 +3,9 @@
 namespace Cesargb\Metric\Traits;
 
 use Exception;
+use Cesargb\Metric\Metric;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Cesargb\Metric\Metric;
 
 trait MetricTwoTrait
 {
@@ -32,7 +32,7 @@ trait MetricTwoTrait
                 $this->setSourceUnits($unitsPart);
 
                 if ($this->isInvalidSource()) {
-                    throw new Exception("Error, previus convert was bad formatted.",);
+                    throw new Exception("Error, previus convert was bad formatted.", );
                 }
 
                 return $this;
@@ -81,20 +81,18 @@ trait MetricTwoTrait
                     $this->precision,
                     $this->roundMode
                 );
-            } else {
-                return round(
+            }
+            return round(
                     $this->getRatioConversion() / $this->value,
                     $this->precision,
                     $this->roundMode
                 );
-            }
-        } else {
-            throw new BadMethodCallException(sprintf(
+        }
+        throw new BadMethodCallException(sprintf(
                 'Method %s::%s does not exist.',
                 static::class,
                 'to'.$units
             ));
-        }
     }
 
     protected function setToUnits(array $units)
@@ -139,28 +137,24 @@ trait MetricTwoTrait
         if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
             return $this->getRatioConversionOne()
                     / $this->getRatioConversionTwo();
-        } else {
-            return $this->getRatioConversionOne()
-                    / $this->getRatioConversionTwo();
         }
+        return $this->getRatioConversionOne()
+                    / $this->getRatioConversionTwo();
     }
 
     protected function getRatioConversionOne(): float
     {
         if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
             return $this->itemToOne->getValue() / $this->itemSourceOne->getValue();
-        } else {
-            return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
         }
+        return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
     }
 
     protected function getRatioConversionTwo(): float
     {
         if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
             return $this->itemToTwo->getValue() / $this->itemSourceTwo->getValue();
-        } else {
-            return $this->itemToTwo->getValue() / $this->itemSourceOne->getValue();
         }
-
+        return $this->itemToTwo->getValue() / $this->itemSourceOne->getValue();
     }
 }

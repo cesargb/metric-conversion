@@ -6,7 +6,6 @@ use Cesargb\Metric\Weight;
 use PHPUnit\Framework\TestCase;
 use Cesargb\Metric\Tests\Traits\Metric;
 
-
 class WeightTest extends TestCase
 {
     use Metric;
