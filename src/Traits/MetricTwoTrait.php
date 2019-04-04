@@ -120,9 +120,7 @@ trait MetricTwoTrait
 
     protected function isInvalidTo(): bool
     {
-        return is_null($this->itemToOne)
-                    || is_null($this->itemToTwo)
-                    || is_null($this->itemToOne->getClass())
+        return is_null($this->itemToOne->getClass())
                     || is_null($this->itemToTwo->getClass())
                     || $this->itemToOne->getClass() == $this->itemToTwo->getClass();
     }
@@ -134,10 +132,6 @@ trait MetricTwoTrait
 
     protected function getRatioConversion(): float
     {
-        if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
-            return $this->getRatioConversionOne()
-                    / $this->getRatioConversionTwo();
-        }
         return $this->getRatioConversionOne()
                     / $this->getRatioConversionTwo();
     }
@@ -147,6 +141,7 @@ trait MetricTwoTrait
         if ($this->itemSourceOne->getClass() == $this->itemToOne->getClass()) {
             return $this->itemToOne->getValue() / $this->itemSourceOne->getValue();
         }
+
         return $this->itemToOne->getValue() / $this->itemSourceTwo->getValue();
     }
 
