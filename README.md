@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cesargb/metric-conversion.svg?branch=master)](https://travis-ci.org/cesargb/metric-conversion)
+
 # Metric Conversion
 
 Library to metric conversions.
