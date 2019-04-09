@@ -36,10 +36,10 @@ class MetricOneTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        Length::toBadHours();
+        Length::toMeters();
     }
 
-    public function testToMadMEthod()
+    public function testToBadMethod()
     {
         $this->expectException(UndefinedMemberException::class);
 
