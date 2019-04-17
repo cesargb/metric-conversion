@@ -51,3 +51,8 @@ $pacePerKilometer = Speed::converKilometersHours(15)
 ``` bash
 $ composer test
 ```
+
+## TODO
+
+* Add documentation
+* More metrics

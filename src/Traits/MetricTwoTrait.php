@@ -32,7 +32,7 @@ trait MetricTwoTrait
                 $this->setSourceUnits($unitsPart);
 
                 if ($this->isInvalidSource()) {
-                    throw new Exception("Error, previus convert was bad formatted.", );
+                    throw new Exception("Error, previus convert was bad formatted.");
                 }
 
                 return $this;
